@@ -1,0 +1,7 @@
+.home{
+    margin: 10px;
+}
+.home .selected{
+    display: flex;
+    justify-content: center;
+}
