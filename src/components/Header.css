@@ -78,5 +78,8 @@
     color: #808080;
     cursor: pointer !important;
 }
+.selected-path{
+    font-weight: 600;
+}
 
 /* Styling ref : https://www.geeksforgeeks.org/create-a-responsive-navbar-using-reactjs/ */
