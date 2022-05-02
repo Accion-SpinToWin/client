@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BusyIndicator } from '../components/BusyIndicator'
 import { BASE_URL } from '../constants';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Reward } from '../components/Reward';
 import { Col, Row } from 'react-bootstrap';
 
@@ -10,92 +8,22 @@ export const Dashboard = () => {
     // State variables
     const [isDashboardBusy, setIsDashboardBusy] = useState(false)
     const [rewards, setRewards] = useState([])
-    const [editingRewardId, setEditingRewardId] = useState(null)
-    const [isNewAddition, setIsNewAddition] = useState(false);
     // functions
-    const onAddReward = () => {
-        let randomId = Math.ceil(Math.random() * 10000)
-        setRewards({
-            ...rewards, [`${randomId}+''`]: {
-                name: '',
-                units: '',
-                category: '',
-                companyIssued: '',
-                active: null,
-                addedBy: ''
-            }
-        })
-        setEditingRewardId(`${randomId}+''`)
-        setIsNewAddition(true)
-    }
-    const onTick = (newReward) => {
-        setIsDashboardBusy(true)
-        isNewAddition && fetch(BASE_URL + `/rewards.json`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newReward)
-        }).then(res => res.json()).then(res => {
-            fetchData();
-            setEditingRewardId(null)
-            setIsDashboardBusy(false)
-            setIsNewAddition(false)
 
-        }).catch(e => {
-            setIsDashboardBusy(false)
 
-            console.log("Exception at creating new reward ", e);
-        })
-        // !isNewAddition  ---- do PATCH - TODO
-    }
-    const onTickAbort = () => {
-        if (isNewAddition) {
-            delete rewards[`${editingRewardId}`];
-            setRewards({ ...rewards })
-            
-        }else{
-           fetchData();
-           
-        }
-        setEditingRewardId(null)
-            setIsNewAddition(false)
-
-    }
-    const onRemoveReward = (rewardId) => {
-        setIsDashboardBusy(true)
-
-        fetch(BASE_URL + `/rewards/${rewardId}.json`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(res => res.json()).then(res => {
-            fetchData();
-            setEditingRewardId(null)
-            setIsDashboardBusy(false)
-
-        }).catch(e => {
-            setIsDashboardBusy(false)
-
-            console.log("Exception at creating new reward ", e);
-        })
-    }
     const fetchData = () => {
         setIsDashboardBusy(true)
 
         fetch(BASE_URL + '/rewards.json').then(r => r.json()).then(res => {
             console.log("Rewards data ", res);
-            setRewards(res)
+            setRewards(JSON.parse(JSON.stringify(res)));
             setIsDashboardBusy(false)
         }).catch(error => {
             console.log("Exception fetching rewards ", error);
             setIsDashboardBusy(false)
         })
     }
-    const onEdit = (editingRewardId) => {
-        setEditingRewardId(editingRewardId)
-    }
+
     // Hooks
     useEffect(() => {
         fetchData()
@@ -103,12 +31,12 @@ export const Dashboard = () => {
     if (isDashboardBusy) {
         return (<BusyIndicator />)
     } else {
-        let rewardIdsList = rewards ? Object.keys(rewards):[]
+        let rewardIdsList = rewards ? Object.keys(rewards) : []
         return (
             <>
                 <div>{rewardIdsList.length
                     === 0 && <div>
-                        No rewards found. Start adding rewards by clicking plus. <FontAwesomeIcon icon={faPlus} onClick={onAddReward} />
+                        No rewards found. Contact Admin to add rewards in inventory
                     </div>}
                     {rewardIdsList.length > 0 && <div>
                         {rewardIdsList.map((rewardId, index, array) => {
@@ -127,14 +55,10 @@ export const Dashboard = () => {
                                     rewardId={rewardId}
                                     index={index}
                                     total={rewardIdsList.length}
-                                    editingRewardId={editingRewardId}
-                                    onAdd={onAddReward}
-                                    onTick={onTick}
-                                    onTickAbort={onTickAbort}
-                                    onEdit={() => onEdit(rewardId)}
-                                    onRemove={() => onRemoveReward(rewardId)} />
+                                    isReadOnly={true} />
                             </div>)
                         })}
+
                     </div>}</div></>
 
         )

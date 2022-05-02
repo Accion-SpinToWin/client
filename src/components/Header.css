@@ -2,13 +2,14 @@
 
 .list {
     background: #7aee2d;
-    height: 75px;
+    height: 50px;
     display: flex;
     justify-content: space-between;
     padding: 0.2rem calc((100vw - 1000px) / 2);
     z-index: 12;
     cursor: pointer;
     flex: 0 1 auto;
+    align-items: baseline;
 }
 
 .list li {

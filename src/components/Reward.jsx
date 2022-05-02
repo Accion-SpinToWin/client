@@ -1,12 +1,12 @@
-import { faCheck, faEdit,  faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faEdit, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
 
 export const Reward = ({ rewardId, name, units, category, companyIssued, active, addedBy,
-     onAdd, onRemove,onTick, onTickAbort,onEdit,
-     index, total, editingRewardId 
-    }) => {
+    onAdd, onRemove, onTick, onTickAbort, onEdit,
+    index, total, editingRewardId, isReadOnly
+}) => {
     let [newReward, setnewReward] = useState({
         rewardId: rewardId,
         name: name, units: units,
@@ -17,7 +17,7 @@ export const Reward = ({ rewardId, name, units, category, companyIssued, active,
     return (
         <div>{
             (rewardId !== editingRewardId) && (<Row>
-                <Col style={{ textAlign: 'right' }}><FontAwesomeIcon icon={faTrash} onClick={onRemove} /></Col>
+                <Col style={{ textAlign: 'right' }}>{!isReadOnly && <FontAwesomeIcon icon={faMinus} onClick={onRemove} />}</Col>
                 <Col>  {name}  </Col>
                 <Col>{units}  </Col>
                 <Col>{category}  </Col>
@@ -25,8 +25,8 @@ export const Reward = ({ rewardId, name, units, category, companyIssued, active,
                 <Col>{active ? 'Y' : 'N'}  </Col>
                 <Col>{addedBy}  </Col>
                 <Col>
-                {!editingRewardId &&<FontAwesomeIcon icon={faEdit} style={{paddingRight:'5px'}} onClick={onEdit}/>}
-                    {index === total - 1 && !editingRewardId && <FontAwesomeIcon icon={faPlus} onClick={onAdd} />}
+                    {!isReadOnly && !editingRewardId && <FontAwesomeIcon icon={faEdit} style={{ paddingRight: '5px' }} onClick={onEdit} />}
+                    {(!isReadOnly && (index === total - 1) && !editingRewardId) && <FontAwesomeIcon icon={faPlus} onClick={onAdd} />}
                     {/* {rewardId === editingRewardId && <FontAwesomeIcon icon={faCheck} onClick={onAdd} />} */}
                 </Col>
             </Row>)}
@@ -63,10 +63,11 @@ export const Reward = ({ rewardId, name, units, category, companyIssued, active,
                             onChange={(e) => setnewReward({ ...newReward, addedBy: e.target.value })} />
                     </Form.Group>  </Col>
                     <Col>
-                        {rewardId === editingRewardId && <FontAwesomeIcon icon={faCheck} onClick={()=>onTick(newReward)} />}
+                        {(!isReadOnly && (rewardId === editingRewardId)) && <FontAwesomeIcon icon={faCheck} onClick={() => onTick(newReward)} />}
                     </Col>
                 </Row>
             )}
+            <div style={{ margin: '0px 75px', borderBottom: '1px solid grey' }}></div>
         </div>
     )
 }
