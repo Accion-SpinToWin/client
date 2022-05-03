@@ -1,18 +1,117 @@
-import React from 'react'
-import { Col, Row } from 'react-bootstrap'
 
+import React, { useState } from 'react'
+import { Button, Col, FloatingLabel, Form, Row } from 'react-bootstrap'
+import { BusyIndicator } from '../components/BusyIndicator';
+import { v4 as uuidv4 } from 'uuid';
+import { BASE_URL, DOMAIN_URL } from '../constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { useNavigate } from 'react-router-dom';
 export const Main = () => {
-  return (
-    <div>
-      <Row>
-        <Col style={{textAlign:'right'}}> <span style={{ background: 'white', color: 'black', fontSize: '30px' }}>
-        Congratulations on your moment!
-        </span> 
-        </Col>
-        <Col ><span style={{ background: 'black', color: 'white', fontSize: '30px' }}>
-          Lets celebrate it with some fun!
-        </span></Col>
-      </Row>
-    </div>)
+  const navigate = useNavigate();
+  const [isBusy, setisBusy] = useState(false)
+  const [empName, setempName] = useState(null);
+  const [empId, setempId] = useState(null);
+  const [comments, setcomments] = useState(null);
+  const [uniqueCodeGenerated, setuniqueCodeGenerated] = useState(null);
+  const [copyOpMessage, setCopyOpMessage] = useState('')
 
+  const onGenerateCode = () => {
+    // Save emp name, id , comments and unique code to db and then display in UI which can be shared.
+    setisBusy(true);
+    let currentDate = new Date();
+    let uniqueCode = uuidv4();
+    let genTime = currentDate.getFullYear() + '/' + currentDate.getMonth() + '/' + currentDate.getDate() + ' ' + currentDate.getHours() + 'hr:' + currentDate.getMinutes() + 'm:' + currentDate.getSeconds() + 's';
+    fetch(BASE_URL + `/emp-code-mapping.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        empId: empId,
+        uniqueCode: uniqueCode,
+        empName: empName,
+        comments: comments,
+        insertedAt: genTime
+      })
+    }).then(res => res.json()).then(res => {
+      // res['name'] will have id of record in firebase
+      setuniqueCodeGenerated(uniqueCode)
+      setisBusy(false)
+    }).catch(e => {
+      setisBusy(false)
+      console.log("Exception at creating emp and unique code generation ", e);
+    })
+  }
+  const onCopyUrlClick = () => {
+    try {
+      navigator?.clipboard?.writeText(`${DOMAIN_URL}/winner/${uniqueCodeGenerated}`)
+      // IE 11 - (backward browsers)
+      window?.clipboardData?.setData(`${DOMAIN_URL}/winner/${uniqueCodeGenerated}`)
+      setCopyOpMessage("Copied !")
+      setTimeout(() => { setCopyOpMessage('') }, 4000)
+    } catch {
+      console.log('Not able to copy.');
+      setCopyOpMessage("Not copied")
+      setTimeout(() => { setCopyOpMessage('') }, 4000)
+    }
+
+  }
+  if (isBusy) {
+    return <BusyIndicator />
+  } else {
+    return (
+      <div>
+        <Row>
+          <Col xs={3}></Col>
+          <Col xs={6}> <Row>
+            <Form className='mt-2'>
+              <h5>Generate unique url to be share with associate in this screen and share with associate</h5>
+              <FloatingLabel className="mb-2" controlId="formEmpName" label="Employee Name">
+                <Form.Control type="text" placeholder="Enter employee name" value={empName} onChange={(e) => setempName(e.target.value)} />
+              </FloatingLabel>
+              <FloatingLabel className="mb-2" controlId="formEmpId" label="Employee Id">
+                <Form.Control type="text" placeholder="0000" value={empId} onChange={(e) => setempId(e.target.value)} />
+              </FloatingLabel>
+              <FloatingLabel className="mb-2" controlId="formComments" label="Comments" value={comments} onChange={e => setcomments(e.target.value)}>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Leave a comment here"
+                  style={{ height: '100px' }}
+                />
+              </FloatingLabel>
+              <Button variant="primary" className='m-2' onClick={onGenerateCode}>
+                Generate unique url
+              </Button>
+              {uniqueCodeGenerated && <Button variant='outline-secondary' className='m-2' onClick={() => {
+                navigate("home", { state: { isHR: true, uniqueCodeGenerated: uniqueCodeGenerated } })
+              }} >See winner's spin!</Button>}
+            </Form>
+            {<div className='mb-3'>
+              {uniqueCodeGenerated && <div>
+                Please share this url to assocaiate :
+
+                <div>
+                  {`${DOMAIN_URL}/winner/${uniqueCodeGenerated}`}
+                  <span style={{ padding: '10px', cursor: 'pointer' }} onClick={onCopyUrlClick}>
+                    <FontAwesomeIcon icon={faCopy} /></span>
+                  {copyOpMessage && <span style={{
+                    fontWeight: '500',
+                    fontStyle: 'italic',
+                    backgroundColor: copyOpMessage === 'Copied !' ? 'green' : 'red',
+                    color: 'white', padding: '5px', borderRadius: '5px'
+                  }}>
+                    {copyOpMessage}
+                  </span>}
+                </div>
+              </div>}
+
+            </div>
+            }
+          </Row></Col>
+          <Col xs={3}></Col>
+
+        </Row>
+      </div>)
+  }
 }

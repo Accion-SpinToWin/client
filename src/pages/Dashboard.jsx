@@ -15,7 +15,6 @@ export const Dashboard = () => {
         setIsDashboardBusy(true)
 
         fetch(BASE_URL + '/rewards.json').then(r => r.json()).then(res => {
-            console.log("Rewards data ", res);
             setRewards(JSON.parse(JSON.stringify(res)));
             setIsDashboardBusy(false)
         }).catch(error => {
