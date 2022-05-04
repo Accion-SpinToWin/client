@@ -51,7 +51,7 @@ export const Dashboard = () => {
                                     <Col></Col>
                                 </Row></div>}
                                 <Reward {...rewards[rewardId]}
-                                    rewardId={rewardId}
+                                    rewardId={rewardId+''}
                                     index={index}
                                     total={rewardIdsList.length}
                                     isReadOnly={true} />

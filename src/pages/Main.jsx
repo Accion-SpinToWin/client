@@ -19,9 +19,9 @@ export const Main = () => {
   const onGenerateCode = () => {
     // Save emp name, id , comments and unique code to db and then display in UI which can be shared.
     setisBusy(true);
-    let currentDate = new Date();
+    // let currentDate = new Date();
     let uniqueCode = uuidv4();
-    let genTime = currentDate.getFullYear() + '/' + currentDate.getMonth() + '/' + currentDate.getDate() + ' ' + currentDate.getHours() + 'hr:' + currentDate.getMinutes() + 'm:' + currentDate.getSeconds() + 's';
+    //let genTime = currentDate.getFullYear() + '/' + currentDate.getMonth() + '/' + currentDate.getDate() + ' ' + currentDate.getHours() + 'hr:' + currentDate.getMinutes() + 'm:' + currentDate.getSeconds() + 's';
     fetch(BASE_URL + `/emp-code-mapping.json`, {
       method: 'POST',
       headers: {
@@ -32,7 +32,7 @@ export const Main = () => {
         uniqueCode: uniqueCode,
         empName: empName,
         comments: comments,
-        insertedAt: genTime
+        insertedAt: new Date()
       })
     }).then(res => res.json()).then(res => {
       // res['name'] will have id of record in firebase

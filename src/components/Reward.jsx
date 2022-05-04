@@ -1,3 +1,4 @@
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import { faCheck, faEdit, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
@@ -17,7 +18,7 @@ export const Reward = ({ rewardId, name, units, category, companyIssued, active,
     return (
         <div>{
             (rewardId !== editingRewardId) && (<Row>
-                <Col style={{ textAlign: 'right' }}>{!isReadOnly && <FontAwesomeIcon icon={faMinus} onClick={onRemove} />}</Col>
+                <Col style={{ textAlign: 'right' }}>{!isReadOnly && <FontAwesomeIcon icon={faTrashCan} onClick={onRemove} />}</Col>
                 <Col>  {name}  </Col>
                 <Col>{units}  </Col>
                 <Col>{category}  </Col>

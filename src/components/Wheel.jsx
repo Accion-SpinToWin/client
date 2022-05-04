@@ -7,6 +7,7 @@ export default class Wheel extends React.Component {
     super(props);
     this.state = {
       selectedItem: props.selectedItem,
+      selectedItemIndex: 0
 
     };
     this.selectItem = this.selectItem.bind(this);
@@ -15,13 +16,13 @@ export default class Wheel extends React.Component {
   selectItem() {
 
     if (this.state.selectedItem === null) {
-      const selectedItem = Math.floor(Math.random() * this.props.items.length);
+      let selectedItem = Math.floor(Math.random() * this.props.items.length);
       if (this.props.onSelectItem) {
-
-        setTimeout(() => { this.props.onSelectItem(this.props.items[selectedItem]); }, 4000);
+        this.props.onSelectItem(this.props.items[selectedItem]);
+        // setTimeout(() => { this.props.onSelectItem(this.props.items[selectedItem]); }, 4000);
 
       }
-      this.setState({ selectedItem });
+      this.setState({ selectedItem, selectedItemIndex: selectedItem });
     } else {
       this.setState({ selectedItem: null });
       if (this.props.onSelectItem) {
@@ -33,22 +34,22 @@ export default class Wheel extends React.Component {
 
 
   render() {
-    const { selectedItem } = this.state;
-    const { items } = this.props;
+    const { selectedItem, selectedItemIndex } = this.state;
+    const { items ,isWinnerWheelOnSpin} = this.props;
 
     const wheelVars = {
       '--nb-item': items.length,
-      '--selected-item': selectedItem,
+      '--selected-item': selectedItemIndex,
     };
-    const spinning = selectedItem !== null ? 'spinning' : '';
+    const spinning = ((selectedItem !== null)||isWinnerWheelOnSpin) ? 'spinning' : '';
 
     return (
       <div className="wheel-container">
         <div className={`wheel ${spinning}`} style={wheelVars}
           onClick={this.selectItem} >
-          {items.map((item, index) => (
-            <div className="wheel-item" key={index} style={{ '--item-nb': index }}>
-              {item}
+          {Object.keys(items).map((item, index) => (
+            <div className="wheel-item" key={item.rewardId} style={{ '--item-nb': index }}>
+              {items[item].name}
             </div>
           ))}
         </div>

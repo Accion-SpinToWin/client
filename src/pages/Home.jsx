@@ -13,15 +13,16 @@ export const Home = () => {
     if (params.uniqueCode) {
         isWinner = true;
     }
-    let {uniqueCode:winnerUniqueCode} = params;
-    let codeOfWinnerToMonitorByHR= state?.uniqueCodeGenerated;
+    let { uniqueCode: winnerUniqueCode } = params;
+    let codeOfWinnerToMonitorByHR = state?.uniqueCodeGenerated;
     console.log(winnerUniqueCode);
-    console.log("Is Winner ",isWinner);
+    console.log("Is Winner ", isWinner);
     console.log(codeOfWinnerToMonitorByHR);
-    
-    const [isBusy, setIsBusy] = useState(false);
-    const [rewards, setRewards] = useState(['100/- Coupon', '500/- Coupon', '1000/- Coupon', '1500/- Coupon', '2000/- Coupon', 'Spin again!', '5000/- Coupon'])
+
+    const [isBusy, setIsBusy] = useState(true);
+    const [rewards, setRewards] = useState([])
     const [selected, setSelected] = useState(null);
+    const [isWinnerWheelOnSpin, setIsWinnerWheelOnSpin] = useState(false)
     // Functions
     const fetchData = () => {
         setIsBusy(true)
@@ -33,9 +34,58 @@ export const Home = () => {
             setIsBusy(false)
         })
     }
+    const onSelectItem = (selected) => {
+        if (isWinner) {
+            console.log("Selected reward : ", selected);
+            setSelected(selected);
+
+            // Update inventory by subtracting available units - onceItem is Selected
+            // Add a record which says what uniqueCode won what price , uniquecode-reward-mapping
+            fetch(BASE_URL + `/uniquecode-reward-mapping.json`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    winnerUniqueCode: winnerUniqueCode,
+                    rewardId: selected.rewardId,
+                    status: 'IN_PROGRESS',
+                    insertedAt: new Date()
+                })
+            }).then(res => res.json()).then(res => {
+                console.log(res);
+            }).catch(e => {
+                console.log('Exception encountered while saving uniqueCode-reard mapping');
+            })
+        }
+
+
+
+    }
     // Hooks
     useEffect(() => {
         fetchData()
+    }, [])
+    const fetchSelectedRewardLive = () => {
+        fetch(BASE_URL + `/uniquecode-reward-mapping.json`)
+            .then(res => res.json()).then(res => {
+                // console.log("uniquecode-reward-mapping" + res);
+                let winnersRewardRecord = Object.keys(res).filter(x => res[x].winnerUniqueCode === codeOfWinnerToMonitorByHR).map(x => res[x]);
+                winnersRewardRecord = winnersRewardRecord && winnersRewardRecord[0];
+                console.log(winnersRewardRecord);
+                setIsWinnerWheelOnSpin(true);
+                setTimeout(() => {
+                    setIsWinnerWheelOnSpin(false)
+                }, 10000)
+
+            }).catch(e => {
+                console.log("Exception at fetching selected reward by winner!", e);
+            })
+    }
+    useEffect(() => {
+        if (!isWinner) {
+            fetchSelectedRewardLive()
+        }
     }, [])
 
     return (
@@ -45,15 +95,16 @@ export const Home = () => {
                     Please click on wheel and wait to see what you won!
                 </div>
             </Row>
-                <Wheel items={Object.keys(rewards).filter(x => rewards[x].units !== 0).map(x => rewards[x].name)}
-                    onSelectItem={(selected) => {
-                        console.log("Selected reward : ", selected);
-                        setSelected(selected)
-                        // Update inventory by subtracting available units
-                    }}
-                    selectedItem={selected} />
+                <Wheel
+                    items={Object.keys(rewards).filter(x => rewards[x].units !== 0).map(x => {
+                        return { ...rewards[x], rewardId: x }
+                    })}
+                    onSelectItem={onSelectItem}
+                    selectedItem={selected}
+                    isWinnerWheelOnSpin={isWinnerWheelOnSpin} />
                 {selected && <div className='selected'>
-                    <h4>You Won : {selected}</h4></div>}
+                    <h4>You Won : {selected.name}</h4></div>}
+
             </div>}
         </div>
     )

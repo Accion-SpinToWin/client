@@ -30,11 +30,13 @@ export const Admin = () => {
     }
     const onTick = (newReward) => {
         setIsDashboardBusy(true)
+        isNewAddition && delete newReward.rewardId;;
         isNewAddition && fetch(BASE_URL + `/rewards.json`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+
             body: JSON.stringify(newReward)
         }).then(res => res.json()).then(res => {
             fetchData();
@@ -130,7 +132,7 @@ export const Admin = () => {
                     {rewardIdsList.length > 0 && <div>
                         {rewardIdsList.map((rewardId, index, array) => {
                             return (<div>
-                                {index === 0 && <div style={{fontWeight:'800'}}><Row>
+                                {index === 0 && <div style={{ fontWeight: '800' }}><Row>
                                     <Col></Col>
                                     <Col>Name </Col>
                                     <Col>Units Available  </Col>
@@ -141,7 +143,7 @@ export const Admin = () => {
                                     <Col></Col>
                                 </Row></div>}
                                 <Reward {...rewards[rewardId]}
-                                    rewardId={rewardId}
+                                    rewardId={rewardId + ''}
                                     index={index}
                                     total={rewardIdsList.length}
                                     editingRewardId={editingRewardId}
