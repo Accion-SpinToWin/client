@@ -71,7 +71,7 @@ export const Home = () => {
             .then(res => res.json()).then(res => {
                 // console.log("uniquecode-reward-mapping" + res);
                 let winnersRewardRecord = Object.keys(res).filter(x => res[x].winnerUniqueCode === codeOfWinnerToMonitorByHR).map(x => res[x]);
-                winnersRewardRecord = winnersRewardRecord && winnersRewardRecord[0];
+                winnersRewardRecord = winnersRewardRecord && winnersRewardRecord.splice(-1);
                 console.log(winnersRewardRecord);
                 setIsWinnerWheelOnSpin(true);
                 setTimeout(() => {
