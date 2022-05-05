@@ -24,6 +24,7 @@ export const Home = () => {
     const [rewards, setRewards] = useState([])
     const [selected, setSelected] = useState(null);
     const [isWinnerWheelOnSpin, setIsWinnerWheelOnSpin] = useState(false)
+    const [winnersRewardRecord, setWinnersRewardRecord] = useState(null)
     // Functions
     const fetchData = () => {
         setIsBusy(true)
@@ -68,7 +69,7 @@ export const Home = () => {
             })]
             Promise.all(promisesArray).then(res => {
                 console.log(res);
-                setTimeout(() => setSelected(selected), 4000);
+                setTimeout(() => setSelected(selected), 5000);
             }).catch(e => {
                 console.log('Exception encountered while saving uniqueCode-reard mapping');
             })
@@ -82,12 +83,15 @@ export const Home = () => {
         fetchData()
     }, [])
     const fetchSelectedRewardLive = () => {
+        setIsWinnerWheelOnSpin(true);
         fetch(BASE_URL + `/uniquecode-reward-mapping.json`)
             .then(res => res.json()).then(res => {
                 // console.log("uniquecode-reward-mapping" + res);
                 let winnersRewardRecord = Object.keys(res).filter(x => res[x].winnerUniqueCode === codeOfWinnerToMonitorByHR).map(x => res[x]);
-                winnersRewardRecord = winnersRewardRecord && winnersRewardRecord.splice(-1);
+                winnersRewardRecord = winnersRewardRecord && winnersRewardRecord.splice(-1)[0];
                 console.log(winnersRewardRecord);
+                setWinnersRewardRecord(winnersRewardRecord)
+                // state.winnerRewardInHRView = winnersRewardRecord;
                 // setIsWinnerWheelOnSpin(true);
                 // setTimeout(() => {
                 //     setIsWinnerWheelOnSpin(false)
@@ -118,7 +122,8 @@ export const Home = () => {
                         })}
                     onSelectItem={onSelectItem}
                     selectedItem={selected}
-                    isWinnerWheelOnSpin={isWinnerWheelOnSpin} />
+                    isWinnerWheelOnSpin={isWinnerWheelOnSpin}
+                    isWinner={true} />
                     {selected && <div className='selected'>
                         <Confetti />
                         <h4>You Won : {selected.name}</h4></div>}
@@ -132,11 +137,16 @@ export const Home = () => {
                             })}
                         onSelectItem={onSelectItem}
                         selectedItem={state.winnerRewardInHRView}
-                        isWinnerWheelOnSpin={isWinnerWheelOnSpin} />
+                        isWinnerWheelOnSpin={isWinnerWheelOnSpin} 
+                        isWinner={false} />
                     <div className='selected'>
                         {state?.winnerRewardInHRView?.rewardId && <>
                             <Confetti />
                             <h4>Reward Won : {Object.keys(rewards).filter(x => rewards[x].rewardId === state?.winnerRewardInHRView?.rewardId).map(x => rewards[x])[0].name}</h4>
+                        </>}
+                        { false && winnersRewardRecord?.rewardId && <>
+                            <Confetti />
+                            <h4>Reward Won : {Object.keys(rewards).filter(x => rewards[x].rewardId === winnersRewardRecord.rewardId).map(x => rewards[x])[0].name}</h4>
                         </>}</div>
 
                 </div>}

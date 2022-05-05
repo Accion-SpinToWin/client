@@ -26,7 +26,7 @@ function App() {
               <Route exact path="home" element={<Home />} />
               <Route exact path="dashboard" element={<Dashboard />} />
               <Route exact path="admin" element={<Admin />} />
-              <Route exact path="about" element={<About />} />
+              {/* <Route exact path="about" element={<About />} /> */}
               <Route path="winner/:uniqueCode" element={<Home />} />
             </Routes>
           </div>

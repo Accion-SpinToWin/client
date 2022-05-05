@@ -95,11 +95,12 @@ export const Main = () => {
               <FloatingLabel className="mb-2" controlId="formEmpId" label="Employee Id">
                 <Form.Control type="text" placeholder="0000" value={empId} onChange={(e) => setempId(e.target.value)} />
               </FloatingLabel>
-              <FloatingLabel className="mb-2" controlId="formComments" label="Comments" value={comments} onChange={e => setcomments(e.target.value)}>
+              <FloatingLabel className="mb-2" controlId="formComments" label="Comments" >
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"
                   style={{ height: '100px' }}
+                  value={comments} onChange={e => setcomments(e.target.value)}
                 />
               </FloatingLabel>
               <Button variant="primary" className='m-2' onClick={onGenerateCode}>
