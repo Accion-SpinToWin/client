@@ -10,6 +10,7 @@ export default class Wheel extends React.Component {
       selectedItemIndex: 0
 
     };
+
     this.selectItem = this.selectItem.bind(this);
   }
 
@@ -17,6 +18,9 @@ export default class Wheel extends React.Component {
 
     if (this.state.selectedItem === null) {
       let selectedItem = Math.floor(Math.random() * this.props.items.length);
+      while (this.props.items[selectedItem].units <= 0) {
+        selectedItem = Math.floor(Math.random() * this.props.items.length);
+      }
       if (this.props.onSelectItem) {
         this.props.onSelectItem(this.props.items[selectedItem]);
         // setTimeout(() => { this.props.onSelectItem(this.props.items[selectedItem]); }, 4000);
@@ -35,13 +39,13 @@ export default class Wheel extends React.Component {
 
   render() {
     const { selectedItem, selectedItemIndex } = this.state;
-    const { items ,isWinnerWheelOnSpin} = this.props;
+    const { items, isWinnerWheelOnSpin } = this.props;
 
     const wheelVars = {
       '--nb-item': items.length,
-      '--selected-item': selectedItemIndex,
+      '--selected-item': (selectedItem && selectedItem.rewardId ? this.props.items.findIndex(x=>x.rewardId === selectedItem.rewardId) : selectedItemIndex),
     };
-    const spinning = ((selectedItem !== null)||isWinnerWheelOnSpin) ? 'spinning' : '';
+    const spinning = ((selectedItem !== null) || isWinnerWheelOnSpin) ? 'spinning' : '';
 
     return (
       <div className="wheel-container">

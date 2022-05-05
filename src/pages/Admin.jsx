@@ -105,6 +105,11 @@ export const Admin = () => {
         setIsDashboardBusy(true)
 
         fetch(BASE_URL + '/rewards.json').then(r => r.json()).then(res => {
+           Object.keys(res).map(x => {
+                res[x].rewardId = x;
+                //return x;
+            }
+            )
             setRewards(res)
             setIsDashboardBusy(false)
         }).catch(error => {

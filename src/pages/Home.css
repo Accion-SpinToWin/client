@@ -1,7 +1,59 @@
-.home{
+.home {
     margin: 10px;
+    position: relative
 }
-.home .selected{
+
+.home .selected {
     display: flex;
+    align-items: center;
     justify-content: center;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    -webkit-animation: rotate-scale-up 0.65s linear both;
+    animation: rotate-scale-up 0.65s linear both;
+    zoom: 2;
+    color: Green;
+    font-size: 50px;
+    padding: 10px;
+    z-index: 10;
+}
+
+@-webkit-keyframes rotate-scale-up {
+    0% {
+        -webkit-transform: scale(1) rotateZ(0);
+        transform: scale(1) rotateZ(0);
+    }
+
+    50% {
+        -webkit-transform: scale(2) rotateZ(180deg);
+        transform: scale(2) rotateZ(180deg);
+    }
+
+    100% {
+        -webkit-transform: scale(1) rotateZ(360deg);
+        transform: scale(1) rotateZ(360deg);
+
+    }
+}
+
+@keyframes rotate-scale-up {
+    0% {
+        -webkit-transform: scale(1) rotateZ(0);
+        transform: scale(1) rotateZ(0);
+    }
+
+    50% {
+        -webkit-transform: scale(2) rotateZ(180deg);
+        transform: scale(2) rotateZ(180deg);
+    }
+
+    100% {
+        -webkit-transform: scale(1) rotateZ(360deg);
+        transform: scale(1) rotateZ(360deg);
+
+    }
 }

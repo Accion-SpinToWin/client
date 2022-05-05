@@ -1,5 +1,5 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
-import { faCheck, faEdit, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faEdit,  faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'

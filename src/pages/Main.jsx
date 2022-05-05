@@ -14,7 +14,8 @@ export const Main = () => {
   const [empId, setempId] = useState(null);
   const [comments, setcomments] = useState(null);
   const [uniqueCodeGenerated, setuniqueCodeGenerated] = useState(null);
-  const [copyOpMessage, setCopyOpMessage] = useState('')
+  const [copyOpMessage, setCopyOpMessage] = useState('');
+  const [winnerRewardInHRView, setWinnerRewardInHRView] = useState(null)
 
   const onGenerateCode = () => {
     // Save emp name, id , comments and unique code to db and then display in UI which can be shared.
@@ -37,7 +38,9 @@ export const Main = () => {
     }).then(res => res.json()).then(res => {
       // res['name'] will have id of record in firebase
       setuniqueCodeGenerated(uniqueCode)
-      setisBusy(false)
+      setisBusy(false);
+      ifWinnerSelectedReward(uniqueCode)
+
     }).catch(e => {
       setisBusy(false)
       console.log("Exception at creating emp and unique code generation ", e);
@@ -56,6 +59,25 @@ export const Main = () => {
       setTimeout(() => { setCopyOpMessage('') }, 4000)
     }
 
+  }
+  const ifWinnerSelectedReward = (uniqueCode) => {
+    fetch(BASE_URL + `/uniquecode-reward-mapping.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(res => res.json()).then(res => {
+      let recordKeys = res && Object.keys(res);
+      let selectedRewardRecordId = recordKeys?.filter(x => res[x].winnerUniqueCode === uniqueCode);
+      if (selectedRewardRecordId?.length > 0) {
+        selectedRewardRecordId = selectedRewardRecordId.slice(-1);
+        setWinnerRewardInHRView(res[selectedRewardRecordId]);
+      } else {
+        setTimeout(() => ifWinnerSelectedReward(uniqueCode), 3000);
+      }
+    }).catch(e => {
+      console.log("Not able to fetch Winners reward data");
+    })
   }
   if (isBusy) {
     return <BusyIndicator />
@@ -83,9 +105,11 @@ export const Main = () => {
               <Button variant="primary" className='m-2' onClick={onGenerateCode}>
                 Generate unique url
               </Button>
-              {uniqueCodeGenerated && <Button variant='outline-secondary' className='m-2' onClick={() => {
-                navigate("home", { state: { isHR: true, uniqueCodeGenerated: uniqueCodeGenerated } })
-              }} >See winner's spin!</Button>}
+              {uniqueCodeGenerated && <Button
+                disabled={!winnerRewardInHRView}
+                variant='outline-secondary' className='m-2' onClick={() => {
+                  navigate("home", { state: { isHR: true, uniqueCodeGenerated: uniqueCodeGenerated, winnerRewardInHRView: winnerRewardInHRView } })
+                }} >See winner's spin!</Button>}
             </Form>
             {<div className='mb-3'>
               {uniqueCodeGenerated && <div>
