@@ -16,10 +16,27 @@
     -webkit-animation: rotate-scale-up 0.65s linear both;
     animation: rotate-scale-up 0.65s linear both;
     zoom: 2;
-    color: Green;
+    color: rgb(0, 0, 0);
     font-size: 50px;
     padding: 10px;
     z-index: 10;
+}
+
+.home .selected h4 {
+    padding: 10px;
+    background-color: #b88006;
+    font-family: 'serif';
+    color: black;
+    border-radius: 15px;
+    /* -webkit-box-shadow: inset 200px -200px 121px -92px rgba(237,29,237,1);
+-moz-box-shadow: inset 200px -200px 121px -92px rgba(237,29,237,1);
+box-shadow: inset 200px -200px 121px -92px rgba(237,29,237,1); */
+    /* -webkit-box-shadow: inset 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: inset 10px 10px 5px 0px rgba(0,0,0,0.75); */
+    -webkit-box-shadow:  25px 26px 48px 1px rgba(0, 0, 0, 0.73);
+    -moz-box-shadow:  25px 26px 48px 1px rgba(0, 0, 0, 0.73);
+    box-shadow:  25px 26px 48px 1px rgba(0, 0, 0, 0.73);
 }
 
 @-webkit-keyframes rotate-scale-up {

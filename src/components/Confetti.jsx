@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
 
+import useSound from 'use-sound';
+import winSound from '../utilities/mixkit-video-game-win-2016.wav'
+
 const canvasStyles = {
   position: "fixed",
   pointerEvents: "none",
@@ -11,6 +14,7 @@ const canvasStyles = {
 };
 
 export default function Realistic() {
+  const [play] = useSound(winSound);
   const refAnimationInstance = useRef(null);
 
   const getInstance = useCallback((instance) => {
@@ -54,13 +58,14 @@ export default function Realistic() {
       startVelocity: 45
     });
   }, [makeShot]);
-useEffect(() => {
-  fire()
-}, [])
+  useEffect(() => {
+    fire();
+    // play()
+  }, [])
 
   return (
     <>
-      
+
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
     </>
   );

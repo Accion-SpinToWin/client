@@ -1,7 +1,7 @@
 
 
 .list {
-    background: #7aee2d;
+    background: #1b0364;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -13,7 +13,7 @@
 }
 
 .list li {
-    color: #808080;
+    color: #faf3f3;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -23,8 +23,12 @@
 }
 .list li a{
     text-decoration: none;
+    color: white;
 }
-
+.list li a svg{
+    text-decoration: none;
+    color: white;
+}
 .list li :active {
     color: #000000;
 }
