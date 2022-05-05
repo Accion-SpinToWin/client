@@ -24,7 +24,8 @@ export const Header = () => {
 
       </ul>
       <div className='last'>
-        <div className='last-btn' onClick={() => navigate('/')}>Logo Here!</div>
+        <div className='last-btn' style={{color:'black',fontWeight:'700'}} onClick={() => navigate('/')}>
+        <img src='https://www.austintechnologycouncil.org/wp-content/uploads/2019/07/Accion-Logo.png' width={100} /></div>
       </div>
     </div>
   )
