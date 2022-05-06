@@ -141,7 +141,7 @@ export const Admin = () => {
                                     <Col></Col>
                                     <Col>Name </Col>
                                     <Col>Units Available  </Col>
-                                    <Col>Cateory  </Col>
+                                    <Col>Category  </Col>
                                     <Col>Company Issued    </Col>
                                     <Col>Active  </Col>
                                     <Col>Added By  </Col>
