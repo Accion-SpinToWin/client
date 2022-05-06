@@ -50,6 +50,7 @@ export const Dashboard = () => {
         setIsDashboardBusy(true)
 
         fetch(BASE_URL + '/rewards.json').then(r => r.json()).then(res => {
+            res = JSON.parse(JSON.stringify(res));
             Object.keys(res).map(x => {
                 res[x].rewardId = x;
                 //return x;

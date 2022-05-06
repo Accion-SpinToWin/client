@@ -105,13 +105,15 @@ export const Admin = () => {
         setIsDashboardBusy(true)
 
         fetch(BASE_URL + '/rewards.json').then(r => r.json()).then(res => {
-           Object.keys(res).map(x => {
+            res=JSON.parse(JSON.stringify(res))
+            Object.keys(res).map(x => {
                 res[x].rewardId = x;
                 //return x;
             }
             )
-            setRewards(res)
-            setIsDashboardBusy(false)
+            setRewards(JSON.parse(JSON.stringify(res)));
+            setEditingRewardId(null) // refresh state
+            setIsDashboardBusy(false);
         }).catch(error => {
             console.log("Exception fetching rewards ", error);
             setIsDashboardBusy(false)

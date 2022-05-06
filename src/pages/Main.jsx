@@ -103,7 +103,10 @@ export const Main = () => {
                   value={comments} onChange={e => setcomments(e.target.value)}
                 />
               </FloatingLabel>
-              <Button variant="primary" className='m-2' onClick={onGenerateCode}>
+              <Button variant="primary" className='m-2'
+                onClick={onGenerateCode}
+                disabled={!empName && !empId && !comments}
+              >
                 Generate unique url
               </Button>
               {uniqueCodeGenerated && <Button
