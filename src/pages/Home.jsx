@@ -8,6 +8,7 @@ import { BASE_URL } from '../constants'
 import useSound from 'use-sound';
 import winSound from '../utilities/mixkit-video-game-win-2016.wav'
 import './Home.css'
+import WheelHR from '../components/WheelHR'
 
 export const Home = () => {
     let params = useParams();
@@ -27,8 +28,9 @@ export const Home = () => {
     const [selected, setSelected] = useState(null);
     const [isWinnerWheelOnSpin, setIsWinnerWheelOnSpin] = useState(false)
     const [winnersRewardRecord, setWinnersRewardRecord] = useState(null);
-    const [play] = useSound(winSound,{volume:isWinner ? 0.3 :0.05});
-    state?.winnerRewardInHRView?.rewardId && setTimeout(()=>play(),0);
+    const [play] = useSound(winSound, { volume: isWinner ? 0.4 : 0.2 });
+
+    state?.winnerRewardInHRView?.rewardId && setTimeout(() => play(), 3000);
     // Functions
     const fetchData = () => {
         setIsBusy(true)
@@ -48,8 +50,6 @@ export const Home = () => {
     const onSelectItem = (selected) => {
         if (isWinner) {
             console.log("Selected reward : ", selected);
-
-
             // Update inventory by subtracting available units - onceItem is Selected
             // Add a record which says what uniqueCode won what price , uniquecode-reward-mapping
             let promisesArray = [fetch(BASE_URL + `/uniquecode-reward-mapping.json`, {
@@ -115,11 +115,11 @@ export const Home = () => {
     return (
         <div className='home'>
             {isBusy && <BusyIndicator />} {!isBusy && <div><Row>
-                {isWinner && <div style={{ textAlign: 'center' }}>
+                {isWinner && <h3 style={{ textAlign: 'center' }}>
                     Please click on wheel and wait to see what you won!
-                </div>
-                }{!isWinner && <div style={{ textAlign: 'center' }}> Winner's reward
-                </div>}
+                </h3>
+                }{!isWinner && <h3 style={{ textAlign: 'center' }}> Winner's reward
+                </h3>}
             </Row>
                 {isWinner && <div><Wheel
                     items={Object.keys(rewards).
@@ -135,31 +135,41 @@ export const Home = () => {
                         <Confetti />
                         <h4>You Won : {selected?.name}</h4></div>}
                 </div>}
-                {!isWinner && <div>
-                    
-                    <Wheel
-                        items={Object.keys(rewards)
-                            // .filter(x => rewards[x].units !== 0)
-                            .map(x => {
-                                return { ...rewards[x], rewardId: x }
-                            })}
-                        onSelectItem={onSelectItem}
-                        selectedItem={state?.winnerRewardInHRView}
-                        isWinnerWheelOnSpin={isWinnerWheelOnSpin}
-                        isWinner={false} />
-                    <div className='selected'>
-                        {state?.winnerRewardInHRView?.rewardId && <>
-                            <Confetti />
-                            <h4>Reward Won : {Object.keys(rewards).filter(x => rewards[x].rewardId === state?.winnerRewardInHRView?.rewardId).map(x => rewards[x])[0].name}</h4>
-                        </>}
-                        {false && winnersRewardRecord?.rewardId && <>
-                            <Confetti />
-                            <h4>Reward Won : {Object.keys(rewards).filter(x => rewards[x].rewardId === winnersRewardRecord.rewardId).map(x => rewards[x])[0].name}</h4>
-                        </>}</div>
+                {false && !isWinner &&
+                    <div>
 
-                </div>}
+                        <Wheel
+                            items={Object.keys(rewards)
+                                // .filter(x => rewards[x].units !== 0)
+                                .map(x => {
+                                    return { ...rewards[x], rewardId: x }
+                                })}
+                            onSelectItem={onSelectItem}
+                            selectedItem={state?.winnerRewardInHRView}
+                            isWinnerWheelOnSpin={isWinnerWheelOnSpin}
+                            isWinner={false} />
+                        <div className='selected'>
+                            {state?.winnerRewardInHRView?.rewardId && <>
+                                <Confetti />
+                                <h4>Reward Won : {Object.keys(rewards).filter(x => rewards[x].rewardId === state?.winnerRewardInHRView?.rewardId).map(x => rewards[x])[0].name}</h4>
+                            </>}
+                            {false && winnersRewardRecord?.rewardId && <>
+                                <Confetti />
+                                <h4>Reward Won : {Object.keys(rewards).filter(x => rewards[x].rewardId === winnersRewardRecord.rewardId).map(x => rewards[x])[0].name}</h4>
+                            </>}</div>
 
-
+                    </div>}
+                    {!isWinner &&
+                    <div>
+                        <WheelHR
+                            items={Object.keys(rewards)
+                                // .filter(x => rewards[x].units !== 0)
+                                .map(x => {
+                                    return { ...rewards[x], rewardId: x }
+                                })}
+                            selectedItem={state?.winnerRewardInHRView}
+                            isWinner={false} />
+                    </div>}
             </div>}
         </div>
     )

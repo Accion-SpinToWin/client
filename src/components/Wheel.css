@@ -11,6 +11,7 @@
     --selected-item: 0;
     --nb-turn: 5;
     --spinning-duration: 4s;
+    --spinning-duration-extra:6s;
     --reset-duration: 0.25s;
     
   }
@@ -74,6 +75,10 @@
   
   .wheel.spinning {
     transition: transform var(--spinning-duration);
+    transform: rotate(calc(var(--nb-turn) * 360deg + (-360deg * var(--selected-item) / var(--nb-item, 1))));
+  }
+  .wheel.spinningHR {
+    transition: transform var(--spinning-duration-extra);
     transform: rotate(calc(var(--nb-turn) * 360deg + (-360deg * var(--selected-item) / var(--nb-item, 1))));
   }
   

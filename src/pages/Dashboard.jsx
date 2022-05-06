@@ -4,7 +4,7 @@ import { BASE_URL } from '../constants';
 import { Reward } from '../components/Reward';
 import { Card, Col, Row, Table } from 'react-bootstrap';
 export const RewardCards = ({ data }) => {
-    let uniqueCategories = [...new Set(Object.keys(data).map(x => data[x].category))];
+    let uniqueCategories = [...new Set(Object.keys(data).map(x => data[x].category.toLowerCase()))];
     return (<Row style={{ padding: '10px', margin: '10px' }}>
         {uniqueCategories.map((categoryName, index) => {
             return (<Col xs={3}>
@@ -22,7 +22,7 @@ export const RewardCards = ({ data }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Object.keys(data).map(x => data[x]).filter(x => x.category === categoryName).map(item => {
+                                    {Object.keys(data).map(x => data[x]).filter(x => x.category.toLowerCase().split(' ').join('') === categoryName.toLowerCase().split(' ').join('')).map(item => {
                                         return (<tr key={item.rewardId}>
                                             <td>{item.name}</td>
                                             <td>{item.units}</td>
@@ -82,7 +82,7 @@ export const Dashboard = () => {
                             <RewardCards data={rewards} />
                         }
                         <center><h5>Table view</h5>
-                            </center>
+                        </center>
                         {rewardIdsList.map((rewardId, index, array) => {
                             return (<div>
                                 {index === 0 && <div><Row>
