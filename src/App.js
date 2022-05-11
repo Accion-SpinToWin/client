@@ -9,6 +9,7 @@ import { Home } from "./pages/Home";
 import { Main } from "./pages/Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { HomeWithSelection } from "./pages/HomeWithSelection";
 function App() {
   let pathname = window.location.pathname;
   let isWinner = (pathname.toLowerCase().includes('winner'));
@@ -24,6 +25,7 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Main />} />
               <Route exact path="home" element={<Home />} />
+              <Route exact path="home-selection" element={<HomeWithSelection />} />
               <Route exact path="dashboard" element={<Dashboard />} />
               <Route exact path="admin" element={<Admin />} />
               {/* <Route exact path="about" element={<About />} /> */}

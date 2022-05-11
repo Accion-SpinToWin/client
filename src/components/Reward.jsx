@@ -1,12 +1,12 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
-import { faCheck, faEdit,  faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faEdit, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
 
 export const Reward = ({ rewardId, name, units, category, companyIssued, active, addedBy,
     onAdd, onRemove, onTick, onTickAbort, onEdit,
-    index, total, editingRewardId, isReadOnly
+    index, total, editingRewardId, isReadOnly, isAdminView
 }) => {
     let [newReward, setnewReward] = useState({
         rewardId: rewardId,
@@ -19,7 +19,8 @@ export const Reward = ({ rewardId, name, units, category, companyIssued, active,
         <div>{
             (rewardId !== editingRewardId) && (<Row>
                 <Col style={{ textAlign: 'right' }}>{!isReadOnly && <FontAwesomeIcon icon={faTrashCan} onClick={onRemove} />}</Col>
-                <Col>  {name}  </Col>
+                {!isAdminView && <Col xs={3}>{rewardId}</Col>}
+                <Col xs={3}>  {name}  </Col>
                 <Col>{units}  </Col>
                 <Col>{category}  </Col>
                 <Col>{companyIssued}  </Col>
@@ -34,7 +35,7 @@ export const Reward = ({ rewardId, name, units, category, companyIssued, active,
             {rewardId === editingRewardId && (
                 <Row>
                     <Col style={{ textAlign: 'right' }}><FontAwesomeIcon icon={faTimes} onClick={onTickAbort} /></Col>
-                    <Col>
+                    <Col xs={3}>
                         <Form.Group className="mb-3" controlId="name">
                             <Form.Control type="text" placeholder="reward name" size="sm"
                                 value={newReward.name}

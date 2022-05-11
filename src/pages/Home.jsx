@@ -20,7 +20,7 @@ export const Home = () => {
     let { uniqueCode: winnerUniqueCode } = params;
     let codeOfWinnerToMonitorByHR = state?.uniqueCodeGenerated;
     console.log(winnerUniqueCode);
-    console.log("Is Winner ", isWinner);
+    // console.log("Is Winner ", isWinner);
     console.log(codeOfWinnerToMonitorByHR);
 
     const [isBusy, setIsBusy] = useState(true);
@@ -28,7 +28,7 @@ export const Home = () => {
     const [selected, setSelected] = useState(null);
     const [isWinnerWheelOnSpin, setIsWinnerWheelOnSpin] = useState(false)
     const [winnersRewardRecord, setWinnersRewardRecord] = useState(null);
-    const [play] = useSound(winSound, { volume: isWinner ? 0.4 : 0.2 });
+    const [play] = useSound(winSound, { volume: 0.5 });
 
     state?.winnerRewardInHRView?.rewardId && setTimeout(() => play(), 3000);
     // Functions
@@ -160,7 +160,7 @@ export const Home = () => {
                             </>}</div>
 
                     </div>}
-                    {!isWinner &&
+                {!isWinner &&
                     <div>
                         <WheelHR
                             items={Object.keys(rewards)

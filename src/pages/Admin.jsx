@@ -141,7 +141,8 @@ export const Admin = () => {
                             return (<div>
                                 {index === 0 && <div style={{ fontWeight: '800' }}><Row>
                                     <Col></Col>
-                                    <Col>Name </Col>
+                                   
+                                    <Col xs={3}>Name </Col>
                                     <Col>Units Available  </Col>
                                     <Col>Category  </Col>
                                     <Col>Company Issued    </Col>
@@ -150,6 +151,7 @@ export const Admin = () => {
                                     <Col></Col>
                                 </Row></div>}
                                 <Reward {...rewards[rewardId]}
+                                isAdminView={true}
                                     rewardId={rewardId + ''}
                                     index={index}
                                     total={rewardIdsList.length}
