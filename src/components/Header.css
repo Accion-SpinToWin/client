@@ -85,6 +85,7 @@
 }
 .selected-path{
     font-weight: 600;
+    font-size: 1.3rem;
 }
 
 /* Styling ref : https://www.geeksforgeeks.org/create-a-responsive-navbar-using-reactjs/ */
