@@ -1,0 +1,30 @@
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 115px;
+    min-height: 100%;
+    background-color: #264E73;
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.navItemSelected {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    color: #e8b220;
+    border-left: 8px solid #e8b220;
+}

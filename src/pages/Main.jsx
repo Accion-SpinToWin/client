@@ -7,6 +7,8 @@ import { BASE_URL, DOMAIN_URL } from '../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import './Main.css';
+
 export const Main = () => {
   const navigate = useNavigate();
   const [isBusy, setisBusy] = useState(false)
@@ -83,19 +85,20 @@ export const Main = () => {
     return <BusyIndicator />
   } else {
     return (
-      <div>
-        <Row>
-          <Col xs={3}></Col>
-          <Col xs={6}> <Row>
-            <Form className='mt-2'>
-              <h5>Generate unique url to be share with associate in this screen and share with associate</h5>
-              <FloatingLabel className="mb-2" controlId="formEmpName" label="Employee Name">
+      <div className='sectionWrapper'>
+        <div style={{margin:'40px'}}>          
+            <img src="spin.png" alt="Spin to Win!" width="635" height="390"/>
+        </div>
+        <div style={{maxWidth: '430px',margin:'40px'}}>          
+            <Form>
+              <span className='generateUnqiueURL'>Generate unique url to be share with associate in this screen and share with associate</span>
+              <FloatingLabel style={{margin: '20px 0'}} controlId="formEmpName" label="Employee Name">
                 <Form.Control type="text" placeholder="Enter employee name" value={empName} onChange={(e) => setempName(e.target.value)} />
               </FloatingLabel>
-              <FloatingLabel className="mb-2" controlId="formEmpId" label="Employee Id">
+              <FloatingLabel style={{margin: '20px 0'}} controlId="formEmpId" label="Employee Id">
                 <Form.Control type="text" placeholder="0000" value={empId} onChange={(e) => setempId(e.target.value)} />
               </FloatingLabel>
-              <FloatingLabel className="mb-2" controlId="formComments" label="Comments" >
+              <FloatingLabel style={{margin: '20px 0'}} controlId="formComments" label="Comments" >
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"
@@ -103,7 +106,7 @@ export const Main = () => {
                   value={comments} onChange={e => setcomments(e.target.value)}
                 />
               </FloatingLabel>
-              <Button variant="primary" className='m-2'
+              <Button variant="primary" style={{margin: '20px 0'}}
                 onClick={onGenerateCode}
                 disabled={!empName && !empId && !comments}
               >
@@ -136,10 +139,7 @@ export const Main = () => {
 
             </div>
             }
-          </Row></Col>
-          <Col xs={3}></Col>
-
-        </Row>
+        </div>
       </div>)
   }
 }

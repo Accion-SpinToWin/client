@@ -10,18 +10,19 @@ import { Main } from "./pages/Main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { HomeWithSelection } from "./pages/HomeWithSelection";
+import { SideNav } from "./components/SideNav";
 function App() {
   let pathname = window.location.pathname;
   let isWinner = (pathname.toLowerCase().includes('winner'));
   let availableHeight = window.innerHeight - (isWinner ? 0 : 50);//(document.getElementById("header-li") ? document.getElementById("header-li").clientHeight : 0); // elements being rendered at same time, so getElement is giving null
 
   return (
-    <div className="router-with-header">
-
-      <Router className=''>
-        {!isWinner && <Header></Header>}
-        <div className="router-div" style={{ '--min-height': availableHeight + 'px' }}>
-          <div className="router-content">
+    <div className="main">
+      <Router>
+        <Header />
+        <div style={{ display: 'flex', height: '100%', width: '100%' }}>
+          {!isWinner && <SideNav />}
+          <div className="content">
             <Routes>
               <Route exact path="/" element={<Main />} />
               <Route exact path="home" element={<Home />} />
@@ -32,8 +33,6 @@ function App() {
               <Route path="winner/:uniqueCode" element={<Home />} />
             </Routes>
           </div>
-
-
         </div>
       </Router>
     </div>
