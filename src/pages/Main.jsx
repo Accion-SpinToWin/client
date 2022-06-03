@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import { Button, Col, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { BusyIndicator } from '../components/BusyIndicator';
 import { v4 as uuidv4 } from 'uuid';
-import { BASE_URL, DOMAIN_URL } from '../constants';
+import { BASE_URL } from '../constants';
+import { DOMAIN_URL } from '../App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +19,7 @@ export const Main = () => {
   const [uniqueCodeGenerated, setuniqueCodeGenerated] = useState(null);
   const [copyOpMessage, setCopyOpMessage] = useState('');
   const [winnerRewardInHRView, setWinnerRewardInHRView] = useState(null)
+
 
   const onGenerateCode = () => {
     // Save emp name, id , comments and unique code to db and then display in UI which can be shared.
@@ -50,9 +52,9 @@ export const Main = () => {
   }
   const onCopyUrlClick = () => {
     try {
-      navigator?.clipboard?.writeText(`${DOMAIN_URL}/winner/${uniqueCodeGenerated}`)
+      navigator?.clipboard?.writeText(`${DOMAIN_URL}winner/${uniqueCodeGenerated}`)
       // IE 11 - (backward browsers)
-      window?.clipboardData?.setData(`${DOMAIN_URL}/winner/${uniqueCodeGenerated}`)
+      window?.clipboardData?.setData(`${DOMAIN_URL}winner/${uniqueCodeGenerated}`)
       setCopyOpMessage("Copied !")
       setTimeout(() => { setCopyOpMessage('') }, 4000)
     } catch {
@@ -123,7 +125,7 @@ export const Main = () => {
                 Please share this url to assocaiate :
 
                 <div>
-                  {`${DOMAIN_URL}/winner/${uniqueCodeGenerated}`}
+                  {`${DOMAIN_URL}winner/${uniqueCodeGenerated}`}
                   <span style={{ padding: '10px', cursor: 'pointer' }} onClick={onCopyUrlClick}>
                     <FontAwesomeIcon icon={faCopy} /></span>
                   {copyOpMessage && <span style={{

@@ -11,6 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { HomeWithSelection } from "./pages/HomeWithSelection";
 import { SideNav } from "./components/SideNav";
+import { BASE_URL } from "./constants";
+
+export const DOMAIN_URL ="http://"+ window.location.host+"/";
 function App() {
   let pathname = window.location.pathname;
   let isWinner = (pathname.toLowerCase().includes('winner'));
