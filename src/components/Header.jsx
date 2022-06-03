@@ -17,9 +17,12 @@ export const Header = () => {
 
   return (
     <div id="header-li" className="list">
-      <div style={{marginLeft: 'auto', marginRight: '20px'}}>
-          {/* <img src='https://www.austintechnologycouncil.org/wp-content/uploads/2019/07/Accion-Logo.png' width={100} /></div> */}
-          <img src={logo} width={100} /></div>
+      <div style={{ marginLeft: '10px', marginRight: '20px' }}>
+        <img src={logo} width={100} />
+      </div>
+      <div style={{ marginLeft: 'auto', marginRight: '20px' }}>
+        <img src='https://www.austintechnologycouncil.org/wp-content/uploads/2019/07/Accion-Logo.png' width={100} />
+      </div>
     </div>
   )
 }
