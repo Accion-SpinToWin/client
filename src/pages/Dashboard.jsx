@@ -7,7 +7,7 @@ export const RewardCards = ({ data }) => {
     let uniqueCategories = [...new Set(Object.keys(data).map(x => data[x].category.toLowerCase()))];
     return (<Row style={{ padding: '10px', margin: '10px' }}>
         {uniqueCategories.map((categoryName, index) => {
-            return (<Col xs={3}>
+            return (<Col xs={6}>
                 <Card style={{ margin: '5px' }} >
                     <Card.Img variant="top" src={`https://source.unsplash.com/random/300x200?sig=${Math.random() * 1000}`} />
                     <Card.Body>
@@ -90,7 +90,8 @@ export const Dashboard = () => {
         let uniqueCodeRewardMappingIdsList = uniqueCodeRewardMapping ? Object.keys(uniqueCodeRewardMapping) : [];
         return (
             <>
-                <div>{rewardIdsList.length
+              <div>
+              <div>{rewardIdsList.length
                     === 0 && <Alert>
                         No rewards found. Contact Admin to add rewards in inventory
                     </Alert>}
@@ -207,6 +208,7 @@ export const Dashboard = () => {
                         })}
                     </div>}
                 </div>
+              </div>
             </>
 
         )

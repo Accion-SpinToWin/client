@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {  Dropdown } from 'react-bootstrap'
+import { Dropdown, Row } from 'react-bootstrap'
 import { BusyIndicator } from '../components/BusyIndicator'
 import { BASE_URL } from '../constants'
 import './Home.css'
@@ -12,7 +12,7 @@ export const HomeWithSelection = () => {
     const [empCodeMapping, setEmpCodeMapping] = useState(null)
     const [selected, setSelected] = useState(null);
     const [rewardWon, setRewardWon] = useState(null)
-    
+
     //functions
     const fetchData = () => {
         setIsBusy(true);
@@ -74,14 +74,14 @@ export const HomeWithSelection = () => {
     return (
         <div> {isBusy && <BusyIndicator />}
             {!isBusy &&
-                <><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline' }}>
+                <Row id="row-for-dropdown"><div id={"drodown-label"} style={{  display: 'flex', justifyContent: 'center', alignItems: 'baseline' }}>
                     <div>
                         <label>Select Assocaite Name :</label>
                     </div>
-                    <div>
+                    <div id={"dropdown-control-div"}>
                         <Dropdown onSelect={onSelect} id="d" style={{ marginLeft: '10px', zIndex: '11' }} >
                             <Dropdown.Toggle variant='primary'>
-                                {empCodeMapping[selected] &&
+                                {empCodeMapping && empCodeMapping[selected] &&
                                     <>
                                         Emp : {empCodeMapping[selected]?.empName}
                                         || Code : {empCodeMapping[selected]?.uniqueCode}
@@ -112,7 +112,7 @@ export const HomeWithSelection = () => {
                             }
                         </div>
                     </div>
-                </>
+                </Row>
 
             }
         </div>

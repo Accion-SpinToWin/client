@@ -105,7 +105,7 @@ export const Admin = () => {
         setIsDashboardBusy(true)
 
         fetch(BASE_URL + '/rewards.json').then(r => r.json()).then(res => {
-            res=JSON.parse(JSON.stringify(res))
+            res = JSON.parse(JSON.stringify(res))
             Object.keys(res).map(x => {
                 res[x].rewardId = x;
                 //return x;
@@ -138,10 +138,10 @@ export const Admin = () => {
                     </div>}
                     {rewardIdsList.length > 0 && <div>
                         {rewardIdsList.map((rewardId, index, array) => {
-                            return (<div>
-                                {index === 0 && <div style={{ fontWeight: '800' }}><Row>
+                            return (<Row>
+                                {index === 0 && <div style={{ fontWeight: '800',paddingTop:'40px' }}><Row>
                                     <Col></Col>
-                                   
+
                                     <Col xs={3}>Name </Col>
                                     <Col>Units Available  </Col>
                                     <Col>Category  </Col>
@@ -151,7 +151,7 @@ export const Admin = () => {
                                     <Col></Col>
                                 </Row></div>}
                                 <Reward {...rewards[rewardId]}
-                                isAdminView={true}
+                                    isAdminView={true}
                                     rewardId={rewardId + ''}
                                     index={index}
                                     total={rewardIdsList.length}
@@ -161,7 +161,7 @@ export const Admin = () => {
                                     onTickAbort={onTickAbort}
                                     onEdit={() => onEdit(rewardId)}
                                     onRemove={() => onRemoveReward(rewardId)} />
-                            </div>)
+                            </Row>)
                         })}
                     </div>}</div></>
 
