@@ -6,6 +6,7 @@ import React, {
 import { Link, useNavigate, } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAward } from "@fortawesome/free-solid-svg-icons";
+import logo from "../utilities/logo.png"
 import './Header.css'
 export const Header = () => {
   const navigate = useNavigate()
@@ -17,7 +18,8 @@ export const Header = () => {
   return (
     <div id="header-li" className="list">
       <div style={{marginLeft: 'auto', marginRight: '20px'}}>
-          <img src='https://www.austintechnologycouncil.org/wp-content/uploads/2019/07/Accion-Logo.png' width={100} /></div>
+          {/* <img src='https://www.austintechnologycouncil.org/wp-content/uploads/2019/07/Accion-Logo.png' width={100} /></div> */}
+          <img src={logo} width={100} /></div>
     </div>
   )
 }
